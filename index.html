@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="تقويم اليمن الشامل - التاريخ الهجري والميلادي والزراعي وأوقات الصلاة">
+    <title>تقويم اليمن | الهوية اليمنية الأصيلة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Amiri:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" r="28" stroke="var(--yemen-red)" stroke-width="2"
+                            fill="rgba(0,0,0,0.5)" />
+                        <path d="M30 2 L58 30 L30 58 L2 30 Z" fill="none" stroke="var(--yemen-white)"
+                            stroke-width="1" />
+                        <circle cx="30" cy="30" r="10" fill="var(--yemen-red)" />
+                        <circle cx="30" cy="30" r="5" fill="var(--yemen-white)" />
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>تقويم اليمن</h1>
+                    <p>أصالة التاريخ ودقة الوقت</p>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="#calendar-section" class="nav-link active" data-section="calendar">
+                    <span class="nav-icon">📅</span>
+                    <span>التقويم</span>
+                </a>
+                <a href="#prayer-section" class="nav-link" data-section="prayer">
+                    <span class="nav-icon">🕌</span>
+                    <span>أوقات الصلاة</span>
+                </a>
+                <a href="#converter-section" class="nav-link" data-section="converter">
+                    <span class="nav-icon">🔄</span>
+                    <span>محوّل التاريخ</span>
+                </a>
+
+            </nav>
+            <button class="theme-toggle" id="themeToggle" title="تبديل الوضع">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="current-date-display">
+                <!-- Hijri -->
+                <div class="date-card primary-date">
+                    <div class="date-label">التاريخ الهجري</div>
+                    <div class="date-value" id="hijriDate">--</div>
+                    <div class="date-day" id="hijriDay">--</div>
+                </div>
+
+                <!-- Gregorian -->
+                <div class="date-card secondary-date">
+                    <div class="date-label">التاريخ الميلادي</div>
+                    <div class="date-value" id="gregorianDate">--</div>
+                    <div class="date-day" id="gregorianDay">--</div>
+                </div>
+
+                <!-- Syriac (Kawanin) -->
+                <div class="date-card secondary-date">
+                    <div class="date-label">التاريخ الشمسي (الرومي)</div>
+                    <div class="date-value" id="syriacDate" style="color: var(--sand-gold);">--</div>
+                    <div class="date-day" id="syriacDay">--</div>
+                </div>
+
+                <!-- Agricultural -->
+                <div class="date-card tertiary-date">
+                    <div class="date-label">المعلم الزراعي</div>
+                    <div class="date-value" id="agriculturalDate" style="font-size: 1.2rem; color: var(--yemen-green);">
+                        --</div>
+                    <div class="date-day" id="agriculturalDesc">--</div>
+                </div>
+            </div>
+            <div class="live-clock">
+                <div class="clock-time" id="clockTime">--:--:--</div>
+                <div class="clock-period" id="clockPeriod">--</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Calendar Section -->
+        <section class="section calendar-section" id="calendar-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-icon">📅</span>
+                    التقويم
+                </h2>
+            </div>
+            <div class="calendar-container">
+                <div class="calendar-nav">
+                    <button class="cal-nav-btn" id="prevMonth">←</button>
+                    <div class="cal-month-year">
+                        <span id="calMonthName">--</span>
+                        <span id="calYear">--</span>
+                    </div>
+                    <button class="cal-nav-btn" id="nextMonth">→</button>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-weekdays" id="calWeekdays"></div>
+                    <div class="calendar-days" id="calDays"></div>
+                </div>
+                <div class="calendar-info">
+                    <div class="selected-date-info" id="selectedDateInfo">
+                        <p>اضغط على يوم لعرض التفاصيل</p>
+                    </div>
+                </div>
+                <button class="today-btn" id="todayBtn">اليوم</button>
+            </div>
+        </section>
+
+        <!-- Prayer Times Section -->
+        <section class="section prayer-section" id="prayer-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-icon">🕌</span>
+                    أوقات الصلاة
+                </h2>
+                <button id="changeGovBtn" class="cal-type-btn" style="border: 1px solid var(--card-border);">
+                    تغيير المحافظة
+                </button>
+            </div>
+            <div class="prayer-container">
+                <div class="prayer-cards" id="prayerCards">
+                    <div class="prayer-card fajr">
+                        <div class="prayer-icon">🌅</div>
+                        <div class="prayer-name">الفجر</div>
+                        <div class="prayer-time" id="fajrTime">--:--</div>
+                    </div>
+                    <div class="prayer-card sunrise">
+                        <div class="prayer-icon">☀️</div>
+                        <div class="prayer-name">الشروق</div>
+                        <div class="prayer-time" id="sunriseTime">--:--</div>
+                    </div>
+                    <div class="prayer-card dhuhr">
+                        <div class="prayer-icon">🌤️</div>
+                        <div class="prayer-name">الظهر</div>
+                        <div class="prayer-time" id="dhuhrTime">--:--</div>
+                    </div>
+                    <div class="prayer-card asr">
+                        <div class="prayer-icon">🌇</div>
+                        <div class="prayer-name">العصر</div>
+                        <div class="prayer-time" id="asrTime">--:--</div>
+                    </div>
+                    <div class="prayer-card maghrib">
+                        <div class="prayer-icon">🌆</div>
+                        <div class="prayer-name">المغرب</div>
+                        <div class="prayer-time" id="maghribTime">--:--</div>
+                    </div>
+                    <div class="prayer-card isha">
+                        <div class="prayer-icon">🌙</div>
+                        <div class="prayer-name">العشاء</div>
+                        <div class="prayer-time" id="ishaTime">--:--</div>
+                    </div>
+                </div>
+                <div class="next-prayer-banner" id="nextPrayerBanner">
+                    <div class="next-prayer-label">الصلاة القادمة</div>
+                    <div class="next-prayer-name" id="nextPrayerName">--</div>
+                    <div class="next-prayer-countdown" id="nextPrayerCountdown">--:--:--</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Date Converter Section -->
+        <section class="section converter-section" id="converter-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-icon">🔄</span>
+                    محوّل التاريخ
+                </h2>
+            </div>
+            <div class="converter-container">
+                <div class="converter-input">
+                    <div class="converter-from">
+                        <label>من</label>
+                        <select id="convertFrom">
+                            <option value="gregorian">ميلادي</option>
+                            <option value="hijri">هجري</option>
+                        </select>
+                    </div>
+                    <div class="converter-fields" id="converterFields">
+                        <input type="number" id="convDay" placeholder="اليوم" min="1" max="31">
+                        <input type="number" id="convMonth" placeholder="الشهر" min="1" max="12">
+                        <input type="number" id="convYear" placeholder="السنة">
+                    </div>
+                    <button class="convert-btn" id="convertBtn">
+                        <span>تحويل</span>
+                    </button>
+                </div>
+                <div class="converter-results" id="converterResults">
+                    <div class="result-card">
+                        <div class="result-label">الميلادي</div>
+                        <div class="result-value" id="resultGregorian">--</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">الهجري</div>
+                        <div class="result-value" id="resultHijri">--</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">الشمسي (الرومي)</div>
+                        <div class="result-value" id="resultSyriac">--</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">المعلم الزراعي</div>
+                        <div class="result-value" id="resultAgricultural">--</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Islamic Events Section -->
+        <section class="section events-section" id="events-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-icon">🌟</span>
+                    المناسبات الإسلامية
+                </h2>
+            </div>
+            <div class="events-container" id="eventsContainer">
+                <!-- Events will be dynamically generated -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>تقويم اليمن</h3>
+                <p>تقويم شامل لجميع محافظات اليمن</p>
+            </div>
+            <div class="footer-info">
+                <p>أوقات الصلاة محسوبة بطريقة أم القرى</p>
+                <p>المعالم الزراعية مستندة للتقويم الفلكي اليمني (علي بن زايد)</p>
+            </div>
+            <div class="footer-copy">
+                <p>© 2026 تقويم اليمن - جميع الحقوق محفوظة</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Location Modal -->
+    <div class="modal-overlay" id="locationModal">
+        <div class="modal-content">
+            <div class="modal-icon" style="font-size: 3rem; margin-bottom: 1rem;">🕌</div>
+            <h2 class="modal-title">مرحباً بك في تقويم اليمن</h2>
+            <p class="modal-desc">يرجى اختيار محافظتك لعرض أوقات الصلاة بدقة</p>
+
+            <div class="select-wrapper"
+                style="margin-bottom: 2rem; border: 1px solid var(--accent-color); padding: 0.5rem; border-radius: 0.5rem;">
+                <select id="modalGovSelect">
+                    <option value="" disabled selected>-- اختر المحافظة --</option>
+                    <option value="sanaa">أمانة العاصمة - صنعاء</option>
+                    <option value="aden">عدن</option>
+                    <option value="taiz">تعز</option>
+                    <option value="ibb">إب</option>
+                    <option value="hudaydah">الحديدة</option>
+                    <option value="hadhramaut">حضرموت</option>
+                    <option value="dhamar">ذمار</option>
+                    <option value="amran">عمران</option>
+                    <option value="hajjah">حجة</option>
+                    <option value="sadah">صعدة</option>
+                    <option value="marib">مأرب</option>
+                    <option value="bayda">البيضاء</option>
+                    <option value="lahij">لحج</option>
+                    <option value="shabwah">شبوة</option>
+                    <option value="abyan">أبين</option>
+                    <option value="dhale">الضالع</option>
+                    <option value="mahwit">المحويت</option>
+                    <option value="jawf">الجوف</option>
+                    <option value="mahrah">المهرة</option>
+                    <option value="raymah">ريمة</option>
+                    <option value="socotra">سقطرى</option>
+                    <option value="sanaaGov">صنعاء (المحافظة)</option>
+                </select>
+            </div>
+
+            <button class="modal-btn" id="confirmLocationBtn">تأكيد واختيار</button>
+        </div>
+    </div>
+
+
+
+    <script src="prayer-times.js"></script>
+    <script src="calendar.js"></script>
+    <script src="app.js"></script>
+    <div style="text-align: center; padding: 20px; font-family: sans-serif; margin-top: 20px; direction: ltr;">
+        Developed by <a href="https://faroukalnamer.github.io/farouk-alnamer-cv" target="_blank"
+            style="text-decoration: none; font-weight: bold;">Farouk Alnamer</a>
+    </div>
+</body>
+
+</html>
